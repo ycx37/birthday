@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>生日快乐 · 仅此一句</title>
+    <style>
+        /* 极简，但每一个像素都是故意的 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0b0c10;
+            font-family: 'Helvetica Neue', 'PingFang SC', 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            /* 没有星星，没有装饰——只有纯黑和专注 */
+        }
+
+        .card {
+            max-width: 400px;
+            width: 100%;
+            background: #111316;
+            border-radius: 32px;
+            padding: 40px 28px;
+            box-shadow: 0 30px 50px -20px rgba(0,0,0,0.9);
+            border: 1px solid rgba(255, 160, 180, 0.2);
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        /* 顶端只有一行小字 —— 不喧哗，但专属 */
+        .tiny-label {
+            font-size: 14px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #9a8c98;
+            margin-bottom: 40px;
+            font-weight: 300;
+            border-left: 3px solid #ff8a9c;
+            padding-left: 12px;
+            opacity: 0.9;
+        }
+
+        /* 核心：仅仅一句最重要的话 */
+        .core-message {
+            font-size: 32px;
+            line-height: 1.4;
+            font-weight: 500;
+            color: #fff1f0;
+            margin-bottom: 30px;
+            word-break: break-word;
+            font-family: 'Times New Roman', 'Songti SC', serif;
+            text-shadow: 0 2px 10px rgba(255, 140, 160, 0.3);
+        }
+
+        /* 那个人的名字 —— 用最轻的方式，放在最近的位置 */
+        .your-name {
+            display: inline-block;
+            background: rgba(255, 140, 160, 0.15);
+            padding: 0 12px;
+            border-radius: 40px;
+            font-size: 30px;
+            font-weight: 600;
+            color: #ffb4b4;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #ff8a9c;
+        }
+
+        /* 日期 —— 不是一个节日，而是和你有关系的数字 */
+        .special-date {
+            color: #b7b7c0;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 36px 0 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px dashed rgba(255, 140, 160, 0.4);
+        }
+
+        .date-number {
+            background: #1e1b20;
+            padding: 8px 18px;
+            border-radius: 50px;
+            color: #ffc2c2;
+            font-weight: 500;
+            font-size: 22px;
+            letter-spacing: 3px;
+            border: 0.5px solid rgba(255, 200, 200, 0.3);
+        }
+
+        /* 唯一的一颗按钮 —— 不是装饰，是承诺 */
+        .one-button {
+            background: transparent;
+            border: 1.5px solid #ff8a9c;
+            color: #ffb8b8;
+            font-size: 20px;
+            padding: 16px 28px;
+            border-radius: 100px;
+            width: 100%;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.25s;
+            backdrop-filter: blur(4px);
+            margin-bottom: 16px;
+            cursor: pointer;
+            letter-spacing: 2px;
+        }
+
+        .one-button:hover {
+            background: #ff8a9c;
+            color: #0b0c10;
+            border-color: #ff8a9c;
+            font-weight: 600;
+        }
+
+        /* 模拟二维码的视觉提示 —— 只有一个小方块 + 一句话 */
+        .qr-minimal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #6f6a74;
+            font-size: 14px;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 0.5px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .qr-icon {
+            font-size: 24px;
+            background: #1f1b1e;
+            padding: 6px;
+            border-radius: 12px;
+            color: #ffacac;
+        }
+
+        /* 脚注 —— 来自vscode / 小程序  */
+        .footnote {
+            color: #4f4b54;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 24px;
+            letter-spacing: 2px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 400px) {
+            .card { padding: 32px 22px; }
+            .core-message { font-size: 28px; }
+        }
+
+        /* 没有任何花哨动画，只有一个会呼吸的心跳——且只有一颗 */
+        .heart-beat {
+            display: inline-block;
+            animation: beat 2.2s infinite ease-in-out;
+            font-size: 28px;
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; color: #ff6b7c; }
+        }
+
+        /* 隐藏的签名 —— 你不说我也会懂 */
+        .tiny-sign {
+            position: absolute;
+            bottom: 16px;
+            right: 28px;
+            font-size: 14px;
+            color: #5a535e;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <!-- 最简洁的头部：只有生日标识 -->
+        <div class="tiny-label">
+            🎂 BIRTHDAY · WISH
+        </div>
+
+        <!-- 最重要的事：你喜欢的那个人的名字（请一定改成对方的称呼） -->
+        <span class="your-name">
+            👑 王明亮 <!-- 请把“小仙女”替换成你对TA的专属爱称 -->
+        </span>
+
+        <!-- 唯一一句核心祝福 —— 删掉所有废话，只留下这一句 -->
+        <div class="core-message">
+            愿你新的一岁，<br>继续在你热爱的领域闪闪发光，开心快乐！
+        </div>
+
+        <!-- 不是普通的日期，是和你有关系的一天 -->
+        <div class="special-date">
+            <span style="color: #a09ba6;">🎁</span>  
+            今天不是普通的一天，今天是你的生日！
+            <span class="date-number">
+                02·12
+            </span>
+        </div>
+
+        <!-- 唯一的按钮：点击后跳出你最想亲口说的那句话 —— 真诚永远是必杀技 -->
+        <button class="one-button" id="heartButton">
+            <span class="heart-beat">🎂</span>  
+            惊喜
+            <span class="heart-beat">🎂</span>
+        </button>
+
+        <!-- 二维码极简提示：足够低调，但足够明确 -->
+        <div class="qr-minimal">
+            <span class="qr-icon">◧</span>  
+            TA扫码就会看到 · 这一页只有你和我
+            <span class="qr-icon">◨</span>
+        </div>
+
+        <!-- 这一页从VSCode / 微信小程序里诞生，带着心意 -->
+        <div class="footnote">
+            ✦ 用html写下，只为给你 ✦
+        </div>
+
+        <!-- 隐形的落款 —— 不刻意，但一直存在 -->
+        <div class="tiny-sign">
+            ❤️
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // 极简但难忘：点击按钮，不是复杂的弹窗，而是你最想说给TA的那句独一无二的话。
+            // 唯一重要的告白 —— 你可以改成任何你真正想说的。
+            const secretWords = "哈哈哈哈没什么特别的，生日快乐！！！我知道你想做的都会做到的。 不要太感动噢";
+
+            const btn = document.getElementById('heartButton');
+            btn.addEventListener('click', function() {
+                // 这个alert，简单直接，没有花哨。但听到的人会记住。
+                alert('❤️  ' + secretWords + '  ❤️');
+                
+                // 按钮的一次小小回应 —— 像心跳加速了一下
+                btn.style.background = '#ff8a9c';
+                btn.style.color = '#0b0c10';
+                btn.style.fontWeight = '600';
+                
+                // 一秒后恢复原本的克制
+                setTimeout(() => {
+                    btn.style.background = 'transparent';
+                    btn.style.color = '#ffb8b8';
+                    btn.style.fontWeight = '400';
+                }, 300);
+            });
+
+            // 双击卡片任何位置 —— 第二次隐藏告白（只属于默契的人）
+            const card = document.querySelector('.card');
+            card.addEventListener('dblclick', function(e) {
+                // 不是所有人都知道这个彩蛋，只有真正在意细节的TA会发现
+                alert('✨ 还有一个秘密：\n“什么秘密嘛，你知道了就不是秘密了。” ✨');
+            });
+
+            // 控制台留一句话 —— 像藏在信背面的铅笔字
+            console.log('%c生日快乐！。', 'color: #ff8a9c; font-size: 16px;');
+        })();
+    </script>
+
+    <!-- 
+        使用指南（致使用者——也就是你）：
+        1. 请一定把 <span class="your-name"> 里的“王明亮”改成对方的名字/昵称。
+        2. 请一定把 .core-message 里的祝福语换成你真正想对TA说的那句话 —— 一句顶一万句。
+        3. 请一定把 secretWords 里的字符串改成你最想单独告诉TA的悄悄话。
+        4. 日期 .date-number 里的“02·11”可以改成TA生日的具体日期。
+        5. 极简，所以每个字都很重。请用真心填满。
+
+        生成二维码：用微信小程序“二维码生成器”或任何工具，把这个页面的网址/本地文件转成二维码。
+        对方扫码，就是这一页。没有任何干扰，只有你写的话。
+    -->
+</body>
+</html>
